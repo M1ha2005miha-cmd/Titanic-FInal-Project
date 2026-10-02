@@ -1,0 +1,10 @@
+numpy==2.5.3
+pandas==3.0.6
+matplotlib==3.11.2
+torch==2.14.1
+scikit-learn==1.9.1
+CatBoost==1.2.10
+LightGBM==4.7.0
+XGBoost==3.4.1
+PyYAML==6.0.3
+ipykernel==7.4.0
