@@ -1,0 +1,14 @@
+# виртуальное окружение
+.venv/
+
+# Mac OS
+.DS_Store
+
+# Python
+__pycache__/
+
+# ipynb автосохранения
+.ipynb_checkpoints/
+
+# готовые результаты
+outputs/
