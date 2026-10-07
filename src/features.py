@@ -42,5 +42,21 @@ def add_family_features(df):
         bins=[0, 1, 4, 20],
         labels=["Alone", "Small", "Large"]
     )
+
+    return df
+
+
+def add_has_cabin(df):
+    """Добавляет новый признак "HasCabin" - известен ли номер каюты (1/0)
+
+    Args:
+        df: Таблица с данными пассажиров, в которой есть "Cabin"
+
+    Returns:
+        Копию таблицы с новым признаком "HasCabin"
+    """
+
+    df = df.copy()
+    df["HasCabin"] = df["Cabin"].notna().astype(int)
     
     return df
