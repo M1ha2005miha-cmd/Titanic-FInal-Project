@@ -5,4 +5,4 @@ data:
 features:
     drop: ["PassengerId", "Ticket", "Name", "Cabin"]
     numeric: ["Age", "SibSp", "Parch", "Fare", "FamilySize", "HasCabin"]
-    categorial: ["Sex", "Embarked", "Title", "FamilyGroup", "Pclass"]
+    categorical: ["Sex", "Embarked", "Title", "FamilyGroup", "Pclass"]
