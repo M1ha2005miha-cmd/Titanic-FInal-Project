@@ -6,3 +6,7 @@ features:
     drop: ["PassengerId", "Ticket", "Name", "Cabin"]
     numeric: ["Age", "SibSp", "Parch", "Fare", "FamilySize", "HasCabin"]
     categorical: ["Sex", "Embarked", "Title", "FamilyGroup", "Pclass"]
+
+validation:
+    n_splits: 5
+    random_state: 42
