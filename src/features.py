@@ -60,3 +60,21 @@ def add_has_cabin(df):
     df["HasCabin"] = df["Cabin"].notna().astype(int)
     
     return df
+
+
+def build_features(df):
+    """Добавляет все новые признаки: Title, FamilySize, FamilyGroup, HasCabiin.
+
+    Args:
+        df: таблица с данными пассажиров, в которой есть столбцы
+            "Name", "SibSp", "Parch" и "Cabin".
+    
+    Returns:
+        Копию таблицы с четырьмя новыми признаками.
+    """
+
+    df = add_title(df)
+    df = add_family_features(df)
+    df = add_has_cabin(df)
+
+    return df
