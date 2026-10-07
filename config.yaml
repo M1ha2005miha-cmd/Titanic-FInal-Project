@@ -1,3 +1,8 @@
 data:
     training_path: data/train.csv
     test_path: data/test.csv
+
+features:
+    drop: ["PassengerId", "Ticket", "Name", "Cabin"]
+    numeric: ["Age", "SibSp", "Parch", "Fare", "FamilySize", "HasCabin"]
+    categorial: ["Sex", "Embarked", "Title", "FamilyGroup", "Pclass"]
