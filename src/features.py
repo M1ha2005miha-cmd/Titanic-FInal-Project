@@ -1,3 +1,5 @@
+import pandas as pd
+
 def add_title(df):
     """ Добавляет новый признак "Title" - титул пассажира из столбца "Name".
     Редкие титулы объединяются в категорию "Rare".
@@ -20,4 +22,25 @@ def add_title(df):
     df["Title"] = df["Title"].replace(title_map)
     df["Title"] = df["Title"].where(df["Title"].isin(main_titles), "Rare")
 
+    return df
+
+
+def add_family_features(df):
+    """Добавляет признаки "FamilySize" и "FamilyGroup" - размер семьи и его группу. 
+
+    Args:
+        df: таблица с данными пассажиров в которой есть "SibSp" и "Parch"
+
+    Returns:
+        Копия таблицы с новыми признаками "FamilySize" и "FamilyGroup"
+    """
+
+    df = df.copy()
+    df["FamilySize"] = df["SibSp"] + df["Parch"] + 1
+    df["FamilyGroup"] = pd.cut(
+        df["FamilySize"],
+        bins=[0, 1, 4, 20],
+        labels=["Alone", "Small", "Large"]
+    )
+    
     return df
