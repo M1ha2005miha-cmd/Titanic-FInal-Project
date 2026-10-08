@@ -10,3 +10,5 @@ features:
 validation:
     n_splits: 5
     random_state: 42
+    metrics: ["accuracy", "precision", "recall", "f1", "roc_auc"]
+
