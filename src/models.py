@@ -17,19 +17,20 @@ def predict_by_sex(df):
     return predictions
 
 
-def build_logistic_regression(preprocessor):
-    """Создает модель логистической регрессии.
+def build_pipeline(preprocessor, model):
+    """Соединить препроцессор и модель в один конвейер.
 
     Args:
         preprocessor: необученный ColumnTransformer,который обрабатывает числовые и категориальные признаки.
+        model: необученная модель sklearn.
 
     Returns:
-        Необученный Pipeline из preprocessor и LogisticRegression.
+        Необученный Pipeline из preprocessor и model.
     """
 
-    model = Pipeline([
+    pipeline = Pipeline([
         ("preprocessor", preprocessor),
-        ("model", LogisticRegression(max_iter=1000))
+        ("model", model)
     ])
 
-    return model
+    return pipeline
