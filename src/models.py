@@ -1,5 +1,8 @@
 from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.tree import DecisionTreeClassifier 
+from sklearn.ensemble import RandomForestClassifier
 
 
 def predict_by_sex(df):
@@ -34,3 +37,22 @@ def build_pipeline(preprocessor, model):
     ])
 
     return pipeline
+
+
+def get_models(random_state):
+    """Создает набор моделей для сравнения.
+
+    Args:
+        random_state: зерно случайности для моделей со случайностью внутри.
+
+    Returns:
+        Словарь: название модели - необученная модель sklearn.
+    """
+    models = {
+        "logistic_regression": LogisticRegression(max_iter=1000),
+        "knn": KNeighborsClassifier(),
+        "decision_tree": DecisionTreeClassifier(random_state=random_state),
+        "random_forest": RandomForestClassifier(random_state=random_state)
+    }
+    
+    return models
