@@ -32,3 +32,20 @@ def evaluate_model(model, X, y, cv, metrics):
     scores = cross_validate(model, X, y, cv=cv, scoring=metrics)
 
     return scores
+
+
+def summarize_scores(scores, metrics):
+    """Считает среднее значение по раундам для каждой метрики.
+
+    Args:
+        scores: словарь результатов кросс-валидации с ключами test_<метрика>.
+        metrics: список названий метрик.
+
+    Returns:
+        Словарь: название метрики - среднее значение.
+    """
+    summary = {}
+    for metric in metrics:
+        summary[metric] = scores[f"test_{metric}"].mean()
+
+    return summary
