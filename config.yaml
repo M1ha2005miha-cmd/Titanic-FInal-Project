@@ -12,3 +12,6 @@ validation:
     random_state: 42
     metrics: ["accuracy", "precision", "recall", "f1", "roc_auc"]
 
+output:
+    results_path: outputs/results.csv
+

@@ -1,4 +1,7 @@
+import pandas as pd
 from sklearn.model_selection import StratifiedKFold, cross_validate
+
+from src.models import build_pipeline
 
 
 def build_cv(n_splits, random_state):
@@ -49,3 +52,26 @@ def summarize_scores(scores, metrics):
         summary[metric] = scores[f"test_{metric}"].mean()
 
     return summary
+
+
+def compare_models(models, preprocessor, X, y, cv, metrics):
+    """Создает таблицу с данными по каждой модели для сравнения метрик.
+
+    Args:
+        models: словарь: название модели - необученная модель sklearn.
+        preprocessor: обработчик данных.
+        X: таблица признаков без целевого столбца.
+        y: правильные ответы.
+        cv: объект-разбиватель для кросс-валидации.
+        metrics: список названий метрик.
+    
+    Returns:
+        Таблица pandas: строки - модели, столбцы - метрики, значения - средние по раундам.
+    """
+    results = {}
+    for name, model in models.items():
+        pipeline = build_pipeline(preprocessor, model)
+        scores = evaluate_model(pipeline, X, y, cv, metrics)
+        results[name] = summarize_scores(scores, metrics)
+    
+    return pd.DataFrame(results).T
