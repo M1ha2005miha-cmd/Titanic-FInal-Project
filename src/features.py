@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def add_title(df):
     """ Добавляет новый признак "Title" - титул пассажира из столбца "Name".
@@ -63,18 +64,34 @@ def add_has_cabin(df):
 
 
 def build_features(df):
-    """Добавляет все новые признаки: Title, FamilySize, FamilyGroup, HasCabiin.
+    """Добавляет все новые признаки: Title, FamilySize, FamilyGroup, HasCabiin, Fare.
 
     Args:
         df: таблица с данными пассажиров, в которой есть столбцы
-            "Name", "SibSp", "Parch" и "Cabin".
+            "Name", "SibSp", "Parch", "Cabin", "Fare".
     
     Returns:
-        Копию таблицы с четырьмя новыми признаками.
+        Копию таблицы с 5 новыми признаками.
     """
 
     df = add_title(df)
     df = add_family_features(df)
     df = add_has_cabin(df)
+    df = add_log_fare(df)
+
+    return df
+
+
+def add_log_fare(df):
+    """Заменяет признак "Fare" на его логарифм.
+
+    Args:
+        df: таблица с данными пассажиров, в которой есть столбец "Fare"
+
+    Returns:
+        Копия таблицы, в которой "Fare" заменен на log(1 + Fare).
+    """
+    df = df.copy()
+    df["Fare"] = np.log1p(df["Fare"])
 
     return df
