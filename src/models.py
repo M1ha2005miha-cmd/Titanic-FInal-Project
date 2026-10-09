@@ -2,10 +2,9 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier 
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, VotingClassifier, StackingClassifier
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
-
 
 def predict_by_sex(df):
     """Предсказывает выживание по полу.
@@ -60,3 +59,54 @@ def get_models(random_state):
     }
     
     return models
+
+
+def build_voting(models):
+    """Собирает ансамбль мягкого голосования из моделей разных типо.
+
+    Args:
+        models: словарь моделей, в котором уже есть настроенные версии.
+
+    Returns:
+        VotingClassifier, усредняющий вероятности выжывания.
+    """
+    return VotingClassifier(
+        estimators=get_ensemble_estimators(models),
+        voting="soft",
+    )
+    
+
+def get_ensemble_estimators(models):
+    """Возвращает модели разных типов для ансамблей.
+
+    Args:
+        models: словарь моделей, в котором уже есть настроенные версии.
+
+    Returns:
+        Список пар (имя, модель).
+    """
+    estimators=[
+        ("logistic_regression", models["logistic_regression"]),
+        ("knn", models["knn"]),
+        ("random_forest", models["random_forest_tuned"]),
+        ("lightgbm", models["lightgbm_tuned"]),
+    ]
+    return estimators
+
+
+def build_stacking(models):
+    """Собирает стекинг-ансамбль из моделей разных типов.
+
+    Мета-модель (логистическая регрессия) учится на предсказаниях базовых моделей, сделаынных
+    на отложенных фолдах, и подбирает, насколько доверять каждой из них.
+
+    Args:
+        models: словарь моделей, в котором уже есть настроенные версии.
+
+    Returns:
+        StackingClassifier с логистической регрессией в роли мета-модели.
+    """
+    return StackingClassifier(
+        estimators=get_ensemble_estimators(models),
+        final_estimator=LogisticRegression(),
+    )

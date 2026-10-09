@@ -5,7 +5,7 @@ from src.data import load_data
 from src.features import build_features
 from src.preprocessing import build_preprocessor
 from src.validation import build_cv, compare_models, tune_model
-from src.models import predict_by_sex, get_models, build_pipeline
+from src.models import build_voting, predict_by_sex, get_models, build_pipeline, build_stacking
 
 
 def main():
@@ -39,6 +39,9 @@ def main():
         print(f"{name}:{search.best_params_}, accuracy = {search.best_score_:.3f}")
         models[f"{name}_tuned"] = search.best_estimator_.named_steps["model"]
 
+    models["voting"] = build_voting(models)
+    models["stacking"] = build_stacking(models)
+    
     baseline = accuracy_score(y, predict_by_sex(train_data))
     print(f"Baseline(правило по полу): accuracy = {baseline:.3f}")
 
