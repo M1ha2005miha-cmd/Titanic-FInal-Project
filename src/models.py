@@ -3,6 +3,8 @@ from sklearn.pipeline import Pipeline
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier 
 from sklearn.ensemble import RandomForestClassifier
+from xgboost import XGBClassifier
+from lightgbm import LGBMClassifier
 
 
 def predict_by_sex(df):
@@ -52,7 +54,9 @@ def get_models(random_state):
         "logistic_regression": LogisticRegression(max_iter=1000),
         "knn": KNeighborsClassifier(),
         "decision_tree": DecisionTreeClassifier(random_state=random_state),
-        "random_forest": RandomForestClassifier(random_state=random_state)
+        "random_forest": RandomForestClassifier(random_state=random_state),
+        "xgboost": XGBClassifier(random_state=random_state),
+        "lightgbm": LGBMClassifier(random_state=random_state, verbose=-1)
     }
     
     return models
