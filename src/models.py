@@ -3,8 +3,16 @@ from sklearn.pipeline import Pipeline
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier 
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier, StackingClassifier
+
+
+
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
+
+import torch
+from skorch.callbacks import EarlyStopping
+
+from src.neural_net import TitanicNet, TitanicNetClassifier
 
 def predict_by_sex(df):
     """Предсказывает выживание по полу.
@@ -49,26 +57,39 @@ def get_models(random_state):
     Returns:
         Словарь: название модели - необученная модель sklearn.
     """
+    torch.manual_seed(random_state)
+    torch.set_num_threads(1)
+    
     models = {
         "logistic_regression": LogisticRegression(max_iter=1000),
         "knn": KNeighborsClassifier(),
         "decision_tree": DecisionTreeClassifier(random_state=random_state),
         "random_forest": RandomForestClassifier(random_state=random_state),
         "xgboost": XGBClassifier(random_state=random_state),
-        "lightgbm": LGBMClassifier(random_state=random_state, verbose=-1)
+        "lightgbm": LGBMClassifier(random_state=random_state, verbose=-1),
+        "neural_net": TitanicNetClassifier(
+        TitanicNet,
+        optimizer=torch.optim.Adam,
+        lr=0.01,
+        max_epochs=200,
+        batch_size=32,
+        callbacks=[EarlyStopping(patience=10)],
+        verbose=0,
+    ),
     }
+    
     
     return models
 
 
 def build_voting(models):
-    """Собирает ансамбль мягкого голосования из моделей разных типо.
+    """Собирает ансамбль мягкого голосования из моделей разных типов.
 
     Args:
         models: словарь моделей, в котором уже есть настроенные версии.
 
     Returns:
-        VotingClassifier, усредняющий вероятности выжывания.
+        VotingClassifier, усредняющий вероятности выживания.
     """
     return VotingClassifier(
         estimators=get_ensemble_estimators(models),

@@ -10,3 +10,5 @@ PyYAML==6.0.3
 ipykernel==7.4.0
 xgboost==3.4.1
 lightgbm==4.7.0
+torch==2.14.1
+skorch==1.4.0

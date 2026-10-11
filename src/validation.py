@@ -70,6 +70,7 @@ def compare_models(models, preprocessor, X, y, cv, metrics):
     """
     results = {}
     for name, model in models.items():
+        print(f"Оцениваю {name}...", flush=True)
         pipeline = build_pipeline(preprocessor, model)
         scores = evaluate_model(pipeline, X, y, cv, metrics)
         results[name] = summarize_scores(scores, metrics)
@@ -93,7 +94,7 @@ def tune_model(pipeline, param_grid, X, y, cv):
         Обученный объект GridSearchCV с лучшими гиперпараметрами в best_params_,
         их средней accuracy в best_score_ и готовым конвейром в best_estimator_.
     """
-    search = GridSearchCV(pipeline, param_grid, cv=cv, scoring="accuracy", n_jobs=-1)
+    search = GridSearchCV(pipeline, param_grid, cv=cv, scoring="accuracy", n_jobs=1)
     search.fit(X, y)
 
     return search
