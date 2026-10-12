@@ -5,6 +5,7 @@ from src.data import load_data
 from src.features import build_features
 from src.preprocessing import build_preprocessor
 from src.validation import build_cv, compare_models, tune_model
+from src.submission import make_submission
 from src.models import build_voting, predict_by_sex, get_models, build_pipeline, build_stacking
 
 
@@ -50,6 +51,13 @@ def main():
     )
     print(results.round(3))
     results.to_csv(config["output"]["results_path"])
+
+    X_test = build_features(test_data)
+
+    for name in config["submission"]["models"]:
+        path = f"{config["submission"]["output_dir"]}/submission_{name}.csv"
+        make_submission(models[name], preprocessor, X, y, X_test, test_data["PassengerId"], path)
+        print(f"Сохранен {path}")
     
    
 
