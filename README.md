@@ -29,8 +29,8 @@
 Проверено на Python 3.14, macOS.
 
 ```bash
-git clone https://github.com/M1ha2005miha-cmd/Titanic-FInal-Project.git
-cd Titanic-FInal-Project
+git clone https://github.com/M1ha2005miha-cmd/Titanic-Final-Project.git
+cd Titanic-Final-Project
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
