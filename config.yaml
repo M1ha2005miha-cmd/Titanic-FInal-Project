@@ -27,5 +27,5 @@ tuning:
         model__num_leaves: [3, 5, 7]      
 
 submission:
-    models: ["lightgbm_tuned", "stacking"]
+    models: ["lightgbm_tuned", "stacking", "logistic_regression"]
     output_dir: outputs
