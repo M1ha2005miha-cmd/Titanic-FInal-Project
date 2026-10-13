@@ -4,8 +4,8 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier 
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier, StackingClassifier
 
-
-
+# Бустинг импортируется до torch т.к. просходить конфликт на macOS их копии OpenMP.
+# Обратный порядок приводит к segmentation fault.
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
 

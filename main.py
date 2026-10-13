@@ -55,7 +55,7 @@ def main():
     X_test = build_features(test_data)
 
     for name in config["submission"]["models"]:
-        path = f"{config["submission"]["output_dir"]}/submission_{name}.csv"
+        path = f"{config['submission']['output_dir']}/submission_{name}.csv"
         make_submission(models[name], preprocessor, X, y, X_test, test_data["PassengerId"], path)
         print(f"Сохранен {path}")
     
